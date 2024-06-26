@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 
 import { AdvertisementController } from './advertisement.controller';
-import { UserService } from './services/user.service';
+import { AdvertisementService } from './services/advertisement.service';
 
 @Module({
   controllers: [AdvertisementController],
-  providers: [UserService],
+  providers: [AdvertisementService],
 })
 export class AdvertisementModule {}

@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateUserDto } from '../../user/dto/req/create-user.dto';
-
 @Injectable()
-export class UserService {
-  create(createUserDto: CreateUserDto) {
+export class RepositoryService {
+  create(createUserDto: any) {
     return 'This action adds a new user';
   }
 

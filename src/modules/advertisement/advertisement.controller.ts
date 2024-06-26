@@ -1,8 +1,8 @@
 import { Controller } from '@nestjs/common';
 
-import { UserService } from './services/user.service';
+import { AdvertisementService } from './services/advertisement.service';
 
 @Controller('user')
 export class AdvertisementController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: AdvertisementService) {}
 }
