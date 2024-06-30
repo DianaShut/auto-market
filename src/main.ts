@@ -1,10 +1,15 @@
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { AppConfig, Config } from './configs/configs.type';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService<Config>);
+  const appConfig = configService.get<AppConfig>('app');
 
   const config = new DocumentBuilder()
     .setTitle('Example')
@@ -26,6 +31,11 @@ async function bootstrap() {
     },
   });
 
-  await app.listen(3000);
+  await app.listen(appConfig.port, appConfig.host, () => {
+    console.log(`Server running on http://${appConfig.host}:${appConfig.port}`);
+    console.log(
+      `Swagger running on http://${appConfig.host}:${appConfig.port}/docs`,
+    );
+  });
 }
-bootstrap();
+void bootstrap();
