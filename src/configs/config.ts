@@ -7,7 +7,7 @@ export default (): Config => ({
     port: parseInt(process.env.APP_PORT) || 3000,
     host: process.env.APP_HOST || '0.0.0.0',
   },
-  database: {
+  postgres: {
     port: parseInt(process.env.POSTGRES_PORT) || 5432,
     host: process.env.POSTGRES_HOST,
     user: process.env.POSTGRES_USER,
