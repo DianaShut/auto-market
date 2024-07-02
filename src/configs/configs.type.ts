@@ -1,6 +1,6 @@
 export type Config = {
   app: AppConfig;
-  database: DatabaseConfig;
+  postgres: PostgresConfig;
   redis: RedisConfig;
   sentry: SentryConfig;
   jwt: JWTConfig;
@@ -13,7 +13,7 @@ export type AppConfig = {
   host: string;
 };
 
-export type DatabaseConfig = {
+export type PostgresConfig = {
   port: number;
   host: string;
   user: string;
