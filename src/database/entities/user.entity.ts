@@ -1,11 +1,14 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 import { Role } from '../../common/enums/role.enum';
+import { AdvertisementEntity } from './advertisement.entity';
 import { EAccountType } from './enums/account-type.enum';
-import { BaseModel } from './models/base.model';
+import { TableNameEnum } from './enums/table-name.enum';
+import { BaseEntity } from './models/base.entity';
+import { RefreshTokenEntity } from './refresh-token.entity';
 
-@Entity('users')
-export class UserEntity extends BaseModel {
+@Entity(TableNameEnum.USERS)
+export class UserEntity extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   name?: string;
 
@@ -30,9 +33,9 @@ export class UserEntity extends BaseModel {
   @Column({ type: 'text', nullable: true })
   image?: string;
 
-  // @OneToMany(() => RefreshTokenEntity, (entity) => entity.user)
-  // refreshTokens?: RefreshTokenEntity[];
-  //
-  // @OneToMany(() => AdvertisementEntity, (entity) => entity.user)
-  // advertisement?: AdvertisementEntity[];
+  @OneToMany(() => RefreshTokenEntity, (entity) => entity.user)
+  refreshTokens?: RefreshTokenEntity[];
+
+  @OneToMany(() => AdvertisementEntity, (entity) => entity.user)
+  advertisement?: AdvertisementEntity[];
 }
