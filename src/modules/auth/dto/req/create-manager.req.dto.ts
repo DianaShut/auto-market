@@ -1,18 +1,18 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {
-  IsBoolean,
   IsNotEmpty,
   IsOptional,
   IsString,
   Length,
   Matches,
 } from 'class-validator';
-import { TransformHelper } from 'src/common/helpers/transform.helper';
 
 import { Role } from '../../../../common/enums/role.enum';
+import { TransformHelper } from '../../../../common/helpers/transform.helper';
+import { BaseUserReqDto } from '../../../user/dto/req/base-user.req.dto';
 
-export class BaseUserReqDto {
+export class CreateManagerReqDto {
   @IsOptional()
   @IsString()
   @Length(3, 50)
@@ -39,12 +39,4 @@ export class BaseUserReqDto {
   @IsNotEmpty()
   @IsString()
   deviceId: string;
-
-  @IsBoolean()
-  account?: boolean;
-
-  @IsOptional()
-  @IsString()
-  @Length(0, 3000)
-  image?: string;
 }

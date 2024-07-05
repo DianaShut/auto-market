@@ -1,7 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
+
+import { UserRepository } from '../../repository/services/user.repository';
 
 @Injectable()
 export class UserService {
+  constructor(private readonly userRepository: UserRepository) {}
+
   create(createUserDto: any) {
     return 'This action adds a new user';
   }
@@ -20,5 +24,12 @@ export class UserService {
 
   remove(id: number) {
     return `This action removes a #${id} user`;
+  }
+
+  public async isEmailUniqueOrThrow(email: string): Promise<void> {
+    const user = await this.userRepository.findOneBy({ email });
+    if (user) {
+      throw new ConflictException();
+    }
   }
 }

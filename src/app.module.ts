@@ -8,6 +8,7 @@ import { AdvertisementModule } from './modules/advertisement/advertisement.modul
 import { AuthModule } from './modules/auth/auth.module';
 import { LoggerModule } from './modules/logger/logger.module';
 import { PostgresModule } from './modules/postgres/postgres.module';
+import { RepositoryModule } from './modules/repository/repository.module';
 import { UserModule } from './modules/user/user.module';
 
 @Module({
@@ -21,6 +22,7 @@ import { UserModule } from './modules/user/user.module';
     AdvertisementModule,
     PostgresModule,
     LoggerModule,
+    RepositoryModule,
   ],
   controllers: [],
   providers: [
