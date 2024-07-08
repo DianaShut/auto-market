@@ -4,38 +4,110 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  ParseUUIDPipe,
   Post,
+  Put,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
+import { ApiFile } from '../../common/decorators/api-file.decorator';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { SkipAuth } from '../auth/decorators/skip-auth.decorator';
+import { IUserData } from '../auth/interfaces/user-data.interface';
+import { UpdateUserReqDto } from './dto/req/update-user.req.dto';
+import { BaseUserResDto } from './dto/res/base-user.res.dto';
 import { UserService } from './services/user.service';
 
-@Controller('user')
+@ApiTags('User')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: any) {
-    return this.userService.create(createUserDto);
-  }
-
+  @SkipAuth()
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiNotFoundResponse({ description: 'Not Found' })
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  public async findAll(): Promise<BaseUserResDto[]> {
+    return await this.userService.findAll();
   }
 
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get information about me' })
+  @ApiForbiddenResponse({ description: 'Forbidden' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiNotFoundResponse({ description: 'Not Found' })
+  @Get('me')
+  public async findMe(
+    @CurrentUser() userData: IUserData,
+  ): Promise<BaseUserResDto> {
+    return await this.userService.findMe(userData);
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Change information about me' })
+  @ApiForbiddenResponse({ description: 'Forbidden' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiNotFoundResponse({ description: 'Not Found' })
+  @Put('me')
+  public async updateMe(
+    @CurrentUser() userData: IUserData,
+    @Body() dto: UpdateUserReqDto,
+  ): Promise<BaseUserResDto> {
+    return await this.userService.updateMe(userData, dto);
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Delete my account' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiNotFoundResponse({ description: 'Not Found' })
+  @Delete('me')
+  public async removeMe(
+    @CurrentUser() userData: IUserData,
+    @Param('id', ParseUUIDPipe) userId: string,
+  ): Promise<void> {
+    return await this.userService.removeMe(userData);
+  }
+
+  @SkipAuth()
+  @ApiOperation({ summary: 'Get user by Id' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  public async getById(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<BaseUserResDto> {
+    return await this.userService.getById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: any) {
-    return this.userService.update(+id, updateUserDto);
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Upload photo' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiNotFoundResponse({ description: 'Not Found' })
+  @Post('me/avatar')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiFile('file', false)
+  public async uploadAvatar(
+    @UploadedFile() avatar: Express.Multer.File,
+    @CurrentUser() userData: IUserData,
+  ): Promise<void> {
+    return await this.userService.uploadAvatar(userData, avatar);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @ApiBearerAuth()
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiNotFoundResponse({ description: 'Not Found' })
+  @Delete('me/avatar')
+  public async deleteAvatar(@CurrentUser() userData: IUserData): Promise<void> {
+    await this.userService.deleteAvatar(userData);
   }
 }

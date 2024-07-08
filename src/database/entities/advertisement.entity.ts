@@ -23,19 +23,22 @@ export class AdvertisementEntity extends BaseEntity {
   brand_Id: string;
   @ManyToOne(() => CarBrandEntity, (entity) => entity.advertisements)
   @JoinColumn({ name: 'brand_Id' })
-  brand?: CarBrandEntity;
+  brand: CarBrandEntity;
 
   @Column()
   model_Id: string;
   @ManyToOne(() => CarModelEntity, (entity) => entity.advertisements)
   @JoinColumn({ name: 'model_Id' })
-  model?: CarModelEntity;
+  model: CarModelEntity;
 
   @Column({ type: 'int' })
   year: number;
 
   @Column({ type: 'numeric' })
   price: number;
+
+  @Column({ type: 'numeric' })
+  priceFunc?: number;
 
   @Column()
   region_Id: string;

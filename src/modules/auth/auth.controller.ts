@@ -1,5 +1,11 @@
 import { Body, Controller, Param, Post, Put } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
 import { Roles } from '../../common/decorators/roles.decorator';
 import { Role } from '../../common/enums/role.enum';
@@ -45,6 +51,8 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
+  @ApiForbiddenResponse({ description: 'Forbidden' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiOperation({ summary: 'Change password' })
   @Post('change-password')
   public async changePassword(
@@ -82,6 +90,8 @@ export class AuthController {
 
   @Roles(Role.Seller, Role.User)
   @ApiBearerAuth()
+  @ApiForbiddenResponse({ description: 'Forbidden' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiOperation({ summary: 'Change to seller or user' })
   @Put('seller')
   public async changeToSeller(
@@ -92,6 +102,8 @@ export class AuthController {
 
   @Roles(Role.Admin)
   @ApiBearerAuth()
+  @ApiForbiddenResponse({ description: 'Forbidden' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiOperation({ summary: 'Create manager' })
   @Post('create-manager')
   public async createUser(

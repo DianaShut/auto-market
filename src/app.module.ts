@@ -6,8 +6,13 @@ import { GlobalExceptionFilter } from './common/exepcions/global-exepcion.filter
 import configuration from './configs/config';
 import { AdvertisementModule } from './modules/advertisement/advertisement.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { AWSModule } from './modules/aws/aws.module';
+import { BrandModule } from './modules/brand/brand.module';
+import { CarModelModule } from './modules/carModel/carModel.module';
+import { CurrencyModule } from './modules/currency/currency.module';
 import { LoggerModule } from './modules/logger/logger.module';
 import { PostgresModule } from './modules/postgres/postgres.module';
+import { RedisModule } from './modules/redis/redis.module';
 import { RepositoryModule } from './modules/repository/repository.module';
 import { UserModule } from './modules/user/user.module';
 
@@ -23,6 +28,11 @@ import { UserModule } from './modules/user/user.module';
     PostgresModule,
     LoggerModule,
     RepositoryModule,
+    AWSModule,
+    RedisModule,
+    CurrencyModule,
+    BrandModule,
+    CarModelModule,
   ],
   controllers: [],
   providers: [
