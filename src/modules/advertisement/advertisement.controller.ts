@@ -74,7 +74,7 @@ export class AdvertisementController {
   public async create(
     @Body() dto: CreateAdvertisementReqDto,
     @CurrentUser() userData: IUserData,
-  ): Promise<BaseAdvertisementResDto> {
+  ): Promise<any> {
     return await this.advertisementService.create(dto, userData);
   }
 
@@ -102,7 +102,7 @@ export class AdvertisementController {
     @Param('advertisementId') advertisementId: string,
     @CurrentUser() userData: IUserData,
     @Body() dto: UpdateAdvertisementReqDto,
-  ): Promise<AdvertisementResDto> {
+  ): Promise<any> {
     return await this.advertisementService.update(
       advertisementId,
       dto,

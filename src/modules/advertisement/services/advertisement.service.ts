@@ -78,30 +78,30 @@ export class AdvertisementService {
   public async create(
     dto: CreateAdvertisementReqDto,
     userData: IUserData,
-  ): Promise<BaseAdvertisementResDto> {
-    const EUR = await this.currencyRepository.findOneBy({
-      currency: CurrencyEnum.EUR,
-    });
-    const USD = await this.currencyRepository.findOneBy({
-      currency: CurrencyEnum.USD,
-    });
-    let PriceUSD: number;
-    if (dto.currency === CurrencyEnum.USD) {
-      PriceUSD = dto.price / USD.selling;
-    } else if (dto.currency === CurrencyEnum.EUR) {
-      PriceUSD = (dto.price * USD.buying) / EUR.selling;
-    } else {
-      PriceUSD = +dto.price;
-    }
-    const advertisementEntity = await this.advertisementRepository.save(
-      this.advertisementRepository.create({
-        ...dto,
-        user_id: userData.userId,
-        isValidate: StatusEnum.ACTIVE,
-        priceFunc: PriceUSD,
-      }),
-    );
-    return AdvertisementMapper.toResponseDto(advertisementEntity);
+  ): Promise<any> {
+    // const EUR = await this.currencyRepository.findOneBy({
+    //   currency: CurrencyEnum.EUR,
+    // });
+    // const USD = await this.currencyRepository.findOneBy({
+    //   currency: CurrencyEnum.USD,
+    // });
+    // let PriceUSD: number;
+    // if (dto.currency === CurrencyEnum.USD) {
+    //   PriceUSD = dto.price / USD.selling;
+    // } else if (dto.currency === CurrencyEnum.EUR) {
+    //   PriceUSD = (dto.price * USD.buying) / EUR.selling;
+    // } else {
+    //   PriceUSD = +dto.price;
+    // }
+    // const advertisementEntity = await this.advertisementRepository.save(
+    //   this.advertisementRepository.create({
+    //     ...dto,
+    //     user_id: userData.userId,
+    //     isValidate: StatusEnum.ACTIVE,
+    //     priceFunc: PriceUSD,
+    //   }),
+    // );
+    // return AdvertisementMapper.toResponseDto(advertisementEntity);
   }
 
   public async findMyAdvertisement(
@@ -120,16 +120,16 @@ export class AdvertisementService {
     advertisementId: string,
     dto: UpdateAdvertisementReqDto,
     userData: IUserData,
-  ): Promise<AdvertisementResDto> {
-    const advertisement = await this.findMyOneByIdOrThrow(
-      advertisementId,
-      userData,
-    );
-    const newAdvertisement = await this.advertisementRepository.save({
-      ...advertisement,
-      ...dto,
-    });
-    return AdvertisementMapper.toResponseDto(newAdvertisement);
+  ): Promise<any> {
+    // const advertisement = await this.findMyOneByIdOrThrow(
+    //   advertisementId,
+    //   userData,
+    // );
+    // const newAdvertisement = await this.advertisementRepository.save({
+    //   ...advertisement,
+    //   ...dto,
+    // });
+    // return AdvertisementMapper.toResponseDto(newAdvertisement);
   }
 
   public async remove(advertisementId: string, userData: IUserData) {
