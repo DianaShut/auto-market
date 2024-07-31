@@ -4,7 +4,7 @@ import { LoggerService } from '../logger/logger.service';
 import { CurrencyService } from './currency.service';
 
 @Module({
-  providers: [CurrencyService, LoggerService],
+  providers: [CurrencyService],
   exports: [CurrencyService],
 })
 export class CurrencyModule {}

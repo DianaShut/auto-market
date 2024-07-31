@@ -8,7 +8,6 @@ import { AdvertisementModule } from './modules/advertisement/advertisement.modul
 import { AuthModule } from './modules/auth/auth.module';
 import { AWSModule } from './modules/aws/aws.module';
 import { BrandModule } from './modules/brand/brand.module';
-import { CarModelModule } from './modules/carModel/carModel.module';
 import { CurrencyModule } from './modules/currency/currency.module';
 import { LoggerModule } from './modules/logger/logger.module';
 import { PostgresModule } from './modules/postgres/postgres.module';
@@ -32,7 +31,6 @@ import { UserModule } from './modules/user/user.module';
     RedisModule,
     CurrencyModule,
     BrandModule,
-    CarModelModule,
   ],
   controllers: [],
   providers: [
